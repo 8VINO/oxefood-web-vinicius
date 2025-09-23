@@ -1,9 +1,39 @@
+import axios from 'axios';
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-
+import MenuSistema from '../../MenuSistema';
+import {useState} from 'react'
 export default function FormProduto(){
-    
-    return(
+    const [titulo,setTitulo]= useState();
+    const [codigo,setCodigo]= useState();
+    const [descricao,setDescricao]= useState();
+    const [valorUnit,setValorUnit]= useState();
+    const [tempMax,setTempMax]= useState();
+    const [tempMin,setTempMin]= useState();
+
+    function salvar(){
+        let produtoRequest={
+            titulo:titulo,
+            codigo:codigo,
+            descricao:descricao,
+            valorUnitario:valorUnit,
+            tempoEntregaMaximo:tempMax,
+            tempoEntregaMinimo:tempMin
+        }
+            axios.post("http://localhost:8080/api/produto", produtoRequest)
+                .then((response)=>{
+                    console.log("Produto cadastrado com sucesso")
+                })
+                .catch((error)=>{
+                      console.log("Erro ao cadastrar produto",error.response?error.response.value: error)  
+                })
+            
+
+
         
+    }
+    return(
+    <div>
+        <MenuSistema tela={"produto"}/>
         <div style={{marginTop:'3%'}}>
             <Container textAlign='justified'>
 
@@ -19,7 +49,9 @@ export default function FormProduto(){
                             label='Título'
                             required
                             placeholder='Informe o título do produto'
-                            maxLength='100'/>
+                            maxLength='100'
+                            value={titulo}
+                            onChange={e=>setTitulo(e.target.value)}/>
 
                             <Form.Input
                             fluid
@@ -27,6 +59,8 @@ export default function FormProduto(){
                             required
                             placeholder='Informe o código do produto'
                             type='number'
+                            value={codigo}
+                            onChange={e=>setCodigo(e.target.value)}
                             />
                             
 
@@ -36,7 +70,10 @@ export default function FormProduto(){
                         <Form.TextArea
                             label='Descrição'
                             fluid
-                            placeholder='Informe a descrição do produto'>
+                            value={descricao}
+                            placeholder='Informe a descrição do produto'
+                            onChange={e=>setDescricao(e.target.value)}>
+
                         </Form.TextArea>
                         <Form.Group widths='equal'>
                             <Form.Input
@@ -44,18 +81,25 @@ export default function FormProduto(){
                                 label='Valor Unitário'
                                 required
                                 type='number'
+                                value={valorUnit}
+                                onChange={e=>setValorUnit(e.target.value)}
+
                             />
                             <Form.Input
                                 fluid
                                 label='Tempo de Entrega Mínimo em Minutos'
                                 placeholder='30'
-                                type='number'                           
+                                type='number'
+                                value={tempMin}
+                                onChange={e=>setTempMin(e.target.value)}                           
                             />
                             <Form.Input
                                 fluid
                                 label='Tempo de Entrega Máximo em Minutos'
                                 placeholder='40'
-                                type='number'                           
+                                type='number' 
+                                value={tempMax}
+                                onChange={e=>setTempMax(e.target.value)}                          
                             />
 
                         </Form.Group>
@@ -82,7 +126,8 @@ export default function FormProduto(){
                         icon
                         circular
                         labelPosition='left'
-                        floated='right' >
+                        floated='right' 
+                        onClick={()=>salvar()}>
                             <Icon
                             name='save'
                             />
@@ -95,5 +140,6 @@ export default function FormProduto(){
                 
             </Container>
         </div>
+    </div>
     )
 }
