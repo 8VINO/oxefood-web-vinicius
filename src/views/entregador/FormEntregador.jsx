@@ -2,6 +2,7 @@ import InputMask from 'comigo-tech-react-input-mask/lib/react-input-mask.develop
 import { Button, Container, Divider, Form, Icon, Dropdown } from 'semantic-ui-react';
 import { useState } from 'react';
 import axios from 'axios';
+import MenuSistema from '../../MenuSistema';
 export default function FormEntregador() {
     const [valueAtive, setValueAtive] = useState("n")
     const options = [
@@ -58,7 +59,8 @@ export default function FormEntregador() {
 
     }
     return (
-
+    <div>
+        <MenuSistema tela={"entregador"}/>
         <div style={{ marginTop: '3%' }}>
             <Container textAlign='justified'>
                 <h2><span style={{ color: 'darkgray' }}>Entregador &nbsp;<Icon name='angle double right' size='small' /> </span>Cadastro </h2>
@@ -259,6 +261,7 @@ export default function FormEntregador() {
             </Container>
 
         </div>
+    </div>
 
     );
 
