@@ -1,6 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import Home from './views/home/Home';
+// import logo from './logo.svg';
+// import './App.css';
+// import Home from './views/home/Home';
 import { Segment } from 'semantic-ui-react';
 import FormCliente from './views/cliente/FormClient';
 import FormProduto from './views/produto/FormProduto';
@@ -9,7 +9,7 @@ import FormEntregador from './views/entregador/FormEntregador';
 function App() {
   return (
     <div className="App">
-         <FormCliente/>
+         <FormEntregador/>
          
 
 <div style={{marginTop: '6%'}}>
