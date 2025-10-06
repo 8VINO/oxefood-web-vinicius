@@ -62,7 +62,7 @@ export default function ListCliente() {
 
                 <Container textAlign='justified' >
 
-                    <h2> Cliente </h2>
+                    <h2> Clientes </h2>
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>

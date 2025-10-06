@@ -22,16 +22,6 @@ export default function ListProduto() {
                 setLista(response.data)
             })
     }
-    function formatarData(dataParam) {
-
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-    }
-
     function confirmaRemover(id) {
         setOpenModal(true)
         setIdRemover(id)
@@ -42,7 +32,7 @@ export default function ListProduto() {
         await axios.delete('http://localhost:8080/api/produto/' + idRemover)
             .then((response) => {
 
-                console.log('Cliente removido com sucesso.')
+                console.log('Produto removido com sucesso.')
 
                 axios.get("http://localhost:8080/api/produto")
                     .then((response) => {
@@ -62,7 +52,7 @@ export default function ListProduto() {
 
                 <Container textAlign='justified' >
 
-                    <h2> Produto </h2>
+                    <h2> Produtos </h2>
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -81,12 +71,13 @@ export default function ListProduto() {
 
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>Nome</Table.HeaderCell>
-                                    <Table.HeaderCell>CPF</Table.HeaderCell>
-                                    <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Celular</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
-                                    <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
+                                    <Table.HeaderCell>Codigo</Table.HeaderCell>
+                                    <Table.HeaderCell>Titulo</Table.HeaderCell>
+                                    <Table.HeaderCell>Descricao</Table.HeaderCell>
+                                    <Table.HeaderCell>Valor Unitário</Table.HeaderCell>
+                                    <Table.HeaderCell>Tempo de Entrega Minimo</Table.HeaderCell>
+                                    <Table.HeaderCell>Tempo de Entrega Máximo</Table.HeaderCell>
+                                    <Table.HeaderCell textAlign="center" >Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
@@ -99,9 +90,9 @@ export default function ListProduto() {
                                         <Table.Cell>{produto.titulo}</Table.Cell>
                                         <Table.Cell>{produto.descricao}</Table.Cell>
                                         <Table.Cell>{produto.valorUnitario}</Table.Cell>
-                                        <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
                                         <Table.Cell>{produto.tempoEntregaMinimo}</Table.Cell>
-                                        <Table.Cell textAlign='center'>
+                                        <Table.Cell>{produto.tempoEntregaMaximo}</Table.Cell>
+                                        <Table.Cell textAlign='center'> 
 
                                             <Button
                                                 inverted
