@@ -26,6 +26,12 @@ export default function MenuSistema(props) {
                     to='/list-produto'
                 />
                 <Menu.Item
+                    content='Categoria de Produto'
+                    active={props.tela === 'categoria'}
+                    as={Link}
+                    to='/list-categoria'
+                />
+                <Menu.Item
                     content='Entregador'
                     active={props.tela === 'entregador'}
                     as={Link}
