@@ -11,6 +11,8 @@ import FormCategoriaProduto from "./views/categoriaProduto/FormCategoriaProduto"
 import ListCatgoriaProduto from "./views/categoriaProduto/ListCategoriaProduto";
 import FormEnderecoCliente from "./views/enderecoCliente/FormEnderecoCliente";
 import ListEnderecoCliente from "./views/enderecoCliente/ListEnderecoCliente";
+import FormCidade from "./views/cidade/FormCidade";
+import ListCidade from "./views/cidade/ListCidade";
 
 function Rotas() {
     return (
@@ -25,9 +27,12 @@ function Rotas() {
                 <Route path="list-produto" element={ <ListProduto/> } />
                 <Route path="form-categoria" element={ <FormCategoriaProduto/> } />
                 <Route path="list-categoria" element={ <ListCatgoriaProduto/> } />
-
                 <Route path="form-entregador" element={ <FormEntregador/> } />
                 <Route path="list-entregador" element={ <ListEntregador/> } />
+
+                <Route path="form-cidade" element={ <FormCidade/> } />
+                <Route path="list-cidade" element={ <ListCidade/> } />
+
             </Routes>
         </>
     )
