@@ -10,7 +10,7 @@ export default function FormCategoriaProduto() {
 
     useEffect(() => {
         if (state != null && state.id != null) {
-            axios.get("http://localhost:8080/api/categoria/" + state.id)
+            axios.get("http://localhost:8080/api/categoriaproduto/" + state.id)
                 .then((response) => {
                     setIdCategoriaProduto(response.data.id)
                     setDescricao(response.data.descricao)
@@ -23,11 +23,11 @@ export default function FormCategoriaProduto() {
             descricao: descricao,
         }
         if (idCategoriaProduto != null) {
-            axios.put("http://localhost:8080/api/categoria/" + idCategoriaProduto, categoriaProdutoRequest)
+            axios.put("http://localhost:8080/api/categoriaproduto/" + idCategoriaProduto, categoriaProdutoRequest)
                 .then((response) => { console.log("Categoria de Produto atualizada com sucesso") })
                 .catch((error) => { console.log("Erro ao atualizar Categoria de Produto", error.response ? error.response.value : error) })
         } else {
-            axios.post("http://localhost:8080/api/categoria", categoriaProdutoRequest)
+            axios.post("http://localhost:8080/api/categoriaproduto", categoriaProdutoRequest)
                 .then((response) => { console.log("Categoria de Produto cadastrada com sucesso") })
                 .catch((error) => { console.log("Erro ao cadastrar Categoria de Produto", error.response ? error.response.value : error) })
         }

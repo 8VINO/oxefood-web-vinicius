@@ -17,7 +17,7 @@ export default function ListCatgoriaProduto() {
 
     function carregarLista() {
 
-        axios.get("http://localhost:8080/api/categoria")
+        axios.get("http://localhost:8080/api/categoriaproduto")
             .then((response) => {
                 setLista(response.data)
             })
@@ -29,12 +29,12 @@ export default function ListCatgoriaProduto() {
 
     async function remover() {
 
-        await axios.delete('http://localhost:8080/api/categoria/' + idRemover)
+        await axios.delete('http://localhost:8080/api/categoriaproduto/' + idRemover)
             .then((response) => {
 
                 console.log('Categoria de produto removida com sucesso.')
 
-                axios.get("http://localhost:8080/api/categoria")
+                axios.get("http://localhost:8080/api/categoriaproduto")
                     .then((response) => {
                         setLista(response.data)
                     })

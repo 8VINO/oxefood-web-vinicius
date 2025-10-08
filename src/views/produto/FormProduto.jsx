@@ -11,6 +11,9 @@ export default function FormProduto() {
     const [tempMin, setTempMin] = useState();
     const [tempMax, setTempMax] = useState();
 
+    const [listaCategoria, setListaCategoria] = useState([]);
+    const [idCategoria, setIdCategoria] = useState();
+
     const { state } = useLocation()
     const [idProduto, setIdProduto] = useState();
     useEffect(() => {
@@ -24,12 +27,20 @@ export default function FormProduto() {
                     setValorUnit(response.data.valorUnitario)
                     setTempMin(response.data.tempoEntregaMinimo)
                     setTempMax(response.data.tempoEntregaMaximo)
+                    setIdCategoria(response.data.categoria?.id)
                 })
         }
+        axios.get("http://localhost:8080/api/categoriaproduto")
+            .then((response) => {
+                const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+                setListaCategoria(dropDownCategorias);
+            })
+
     }, [state])
 
     function salvar() {
         let produtoRequest = {
+            idCategoria:idCategoria,
             titulo: titulo,
             codigo: codigo,
             descricao: descricao,
@@ -56,10 +67,10 @@ export default function FormProduto() {
             <div style={{ marginTop: '3%' }}>
                 <Container textAlign='justified'>
 
-                    {idProduto=== undefined &&
+                    {idProduto === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Produto&nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
-                    {idProduto!= undefined &&
+                    {idProduto != undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Produto&nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
                     }
 
@@ -86,11 +97,20 @@ export default function FormProduto() {
                                     value={codigo}
                                     onChange={e => setCodigo(e.target.value)}
                                 />
-
-
-
-
                             </Form.Group>
+                            <Form.Select
+                                required
+                                fluid
+                                tabIndex='3'
+                                placeholder='Selecione'
+                                label='Categoria'
+                                options={listaCategoria}
+                                value={idCategoria}
+                                onChange={(e, { value }) => {
+                                    setIdCategoria(value)
+                                }}
+                            />
+
                             <Form.TextArea
                                 label='Descrição'
                                 value={descricao}
@@ -105,7 +125,7 @@ export default function FormProduto() {
                                     required
                                     type='number'
                                     value={valorUnit}
-                                    onChange={(e,{value}) => setValorUnit(value)}
+                                    onChange={(e, { value }) => setValorUnit(value)}
 
                                 />
                                 <Form.Input
@@ -114,7 +134,7 @@ export default function FormProduto() {
                                     placeholder='30'
                                     type='number'
                                     value={tempMin}
-                                    onChange={(e,{value}) => setTempMin(value)}
+                                    onChange={(e, { value }) => setTempMin(value)}
                                 />
                                 <Form.Input
                                     fluid
@@ -122,7 +142,7 @@ export default function FormProduto() {
                                     placeholder='40'
                                     type='number'
                                     value={tempMax}
-                                    onChange={(e,{value}) => setTempMax(value)}
+                                    onChange={(e, { value }) => setTempMax(value)}
                                 />
 
                             </Form.Group>

@@ -6,9 +6,34 @@ import MenuSistema from '../../MenuSistema';
 import { Link, useLocation } from "react-router-dom";
 export default function FormEntregador() {
     const options = [
-        { key: 'br', text: 'PE', value: 'PE' },
-        { key: 'sp', text: 'SP', value: 'SP' },
-        { key: 'rj', text: 'RJ', value: 'RJ' },
+        { key: 'AC', value: 'AC', text: 'AC' },
+        { key: 'AL', value: 'AL', text: 'AL' },
+        { key: 'AP', value: 'AP', text: 'AP' },
+        { key: 'AM', value: 'AM', text: 'AM' },
+        { key: 'BA', value: 'BA', text: 'BA' },
+        { key: 'CE', value: 'CE', text: 'CE' },
+        { key: 'DF', value: 'DF', text: 'DF' },
+        { key: 'ES', value: 'ES', text: 'ES' },
+        { key: 'GO', value: 'GO', text: 'GO' },
+        { key: 'MA', value: 'MA', text: 'MA' },
+        { key: 'MT', value: 'MT', text: 'MT' },
+        { key: 'MS', value: 'MS', text: 'MS' },
+        { key: 'MG', value: 'MG', text: 'MG' },
+        { key: 'PA', value: 'PA', text: 'PA' },
+        { key: 'PB', value: 'PB', text: 'PB' },
+        { key: 'PR', value: 'PR', text: 'PR' },
+        { key: 'PE', value: 'PE', text: 'PE' },
+        { key: 'PI', value: 'PI', text: 'PI' },
+        { key: 'RJ', value: 'RJ', text: 'RJ' },
+        { key: 'RN', value: 'RN', text: 'RN' },
+        { key: 'RS', value: 'RS', text: 'RS' },
+        { key: 'RO', value: 'RO', text: 'RO' },
+        { key: 'RR', value: 'RR', text: 'RR' },
+        { key: 'SC', value: 'SC', text: 'SC' },
+        { key: 'SP', value: 'SP', text: 'SP' },
+        { key: 'SE', value: 'SE', text: 'SE' },
+        { key: 'TO', value: 'TO', text: 'TO' }
+
     ];
 
     const [nome, setNome] = useState();
@@ -53,7 +78,7 @@ export default function FormEntregador() {
                     setEnderecoCep(response.data.enderecoCep);
                     setEnderecoUf(response.data.enderecoUf);
                     setAtivo(response.data.ativo);
-                    
+
                 })
         }
     }, [state])
@@ -80,14 +105,14 @@ export default function FormEntregador() {
             ativo: ativo
 
         }
-         if (idEntregador != null) { 
-            axios.put("http://localhost:8080/api/entregador/" + idEntregador , entregadorRequest)
+        if (idEntregador != null) {
+            axios.put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
                 .then((response) => { console.log('Entregador alterado com sucesso.') })
-                .catch((error) => { console.log("Erro ao atualizar entregador",error.response?error.response.value: error)   })
-        } else { 
+                .catch((error) => { console.log("Erro ao atualizar entregador", error.response ? error.response.value : error) })
+        } else {
             axios.post("http://localhost:8080/api/entregador", entregadorRequest)
                 .then((response) => { console.log('Entregador cadastrado com sucesso.') })
-                .catch((error) => { console.log("Erro ao atualizar entregador",error.response?error.response.value: error) })
+                .catch((error) => { console.log("Erro ao atualizar entregador", error.response ? error.response.value : error) })
         }
     }
     function formatarData(dataParam) {
@@ -105,7 +130,7 @@ export default function FormEntregador() {
             <MenuSistema tela={"entregador"} />
             <div style={{ marginTop: '3%' }}>
                 <Container textAlign='justified'>
-                   {idEntregador === undefined &&
+                    {idEntregador === undefined &&
                         <h2> <span style={{ color: 'darkgray' }}> Entregador &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
                     }
                     {idEntregador != undefined &&
@@ -256,13 +281,13 @@ export default function FormEntregador() {
                                     label="Sim"
                                     value={true}
                                     checked={ativo === true}
-                                    onChange={(e,{value}) => setAtivo(value) }
+                                    onChange={(e, { value }) => setAtivo(value)}
                                 />
                                 <Form.Radio
                                     label="Não"
                                     value={false}
                                     checked={ativo === false}
-                                    onChange={(e,{value}) => setAtivo(value) }
+                                    onChange={(e, { value }) => setAtivo(value)}
                                 />
                             </Form.Group>
 
@@ -270,20 +295,20 @@ export default function FormEntregador() {
 
                         </Form>
                         <div style={{ marginTop: '4%' }}>
-                        <Link to='/list-entregador'>
-                            <Button
-                                type='button'
-                                inverted
-                                icon
-                                circular
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Listar
+                            <Link to='/list-entregador'>
+                                <Button
+                                    type='button'
+                                    inverted
+                                    icon
+                                    circular
+                                    labelPosition='left'
+                                    color='orange'
+                                >
+                                    <Icon name='reply' />
+                                    Listar
 
-                            </Button>
-                        </Link>
+                                </Button>
+                            </Link>
                             <Button
                                 type='button'
                                 inverted
