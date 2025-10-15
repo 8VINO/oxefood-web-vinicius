@@ -3,6 +3,7 @@ import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
+import { notifyError, notifySuccess } from "../util/Util.js";
 export default function FormProduto() {
     const [codigo, setCodigo] = useState();
     const [titulo, setTitulo] = useState();
@@ -16,6 +17,8 @@ export default function FormProduto() {
 
     const { state } = useLocation()
     const [idProduto, setIdProduto] = useState();
+
+    
     useEffect(() => {
         if (state != null && state.id != null) {
             axios.get("http://localhost:8080/api/produto/" + state.id)
@@ -50,12 +53,28 @@ export default function FormProduto() {
         }
         if (idProduto != null) {
             axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
-                .then((response) => { console.log("Produto atualizado com sucesso") })
-                .catch((error) => { console.log("Erro ao atualizar produto", error.response ? error.response.value : error) })
+                .then((response) => { notifySuccess("Produto atualizado com sucesso."); })
+                .catch((error) => { 
+                    if (error.response.data.errors != undefined) {
+                                for (let i = 0; i < error.response.data.errors.length; i++) {
+                                   notifyError(error.response.data.errors[i].defaultMessage);
+                                 }
+                               } else {
+                                 notifyError(error.response.data.message);
+                               }
+                 })
         } else {
             axios.post("http://localhost:8080/api/produto", produtoRequest)
-                .then((response) => { console.log("Produto cadastrado com sucesso") })
-                .catch((error) => { console.log("Erro ao cadastrar produto", error.response ? error.response.value : error) })
+                .then((response) => { notifySuccess("Produto cadastrado com sucesso."); })
+                .catch((error) => {
+                      if (error.response.data.errors != undefined) {
+                                for (let i = 0; i < error.response.data.errors.length; i++) {
+                                   notifyError(error.response.data.errors[i].defaultMessage);
+                                 }
+                               } else {
+                                 notifyError(error.response.data.message);
+                               }
+                    })
         }
 
 
