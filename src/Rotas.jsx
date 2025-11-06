@@ -12,22 +12,31 @@ import ListCatgoriaProduto from "./views/categoriaProduto/ListCategoriaProduto";
 import FormEnderecoCliente from "./views/enderecoCliente/FormEnderecoCliente";
 import ListEnderecoCliente from "./views/enderecoCliente/ListEnderecoCliente";
 
+
+import FormLogin from './views/login/FormLogin';
+
+
 function Rotas() {
     return (
         <>
             <Routes>
-                <Route path="/" element={ <Home/> } />
-                <Route path="list-cliente" element={ <ListCliente/> } />
-                <Route path="form-cliente" element={ <FormCliente/> } />
-                <Route path="form-endereco-cliente" element={ <FormEnderecoCliente/> } />
-                <Route path="list-endereco-cliente" element={ <ListEnderecoCliente/> } />
-                <Route path="form-produto" element={ <FormProduto/> } />
-                <Route path="list-produto" element={ <ListProduto/> } />
-                <Route path="form-categoria" element={ <FormCategoriaProduto/> } />
-                <Route path="list-categoria" element={ <ListCatgoriaProduto/> } />
+                <Route path="/" element={<FormLogin />} />
+                <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
 
-                <Route path="form-entregador" element={ <FormEntregador/> } />
-                <Route path="list-entregador" element={ <ListEntregador/> } />
+                <Route path="list-cliente" element={<ProtectedRoute><ListCliente /></ProtectedRoute>} />
+                <Route path="form-cliente" element={<ProtectedRoute><FormCliente /></ProtectedRoute>} />
+                
+                <Route path="form-endereco-cliente" element={<ProtectedRoute><FormEnderecoCliente /></ProtectedRoute>} />
+                <Route path="list-endereco-cliente" element={<ProtectedRoute><ListEnderecoCliente /></ProtectedRoute>} />
+
+                <Route path="form-produto" element={<ProtectedRoute><FormProduto /></ProtectedRoute>} />
+                <Route path="list-produto" element={<ProtectedRoute><ListProduto /></ProtectedRoute>} />
+
+                <Route path="form-categoria" element={<ProtectedRoute><FormCategoriaProduto /></ProtectedRoute>} />
+                <Route path="list-categoria" element={<ProtectedRoute><ListCatgoriaProduto /></ProtectedRoute>} />
+
+                <Route path="form-entregador" element={<ProtectedRoute><FormEntregador /></ProtectedRoute>} />
+                <Route path="list-entregador" element={<ProtectedRoute><ListEntregador /></ProtectedRoute>} />
             </Routes>
         </>
     )
