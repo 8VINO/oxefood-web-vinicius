@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
-import { notifyError, notifySuccess } from "../util/Util.js";
-export default function ListCliente() {
+
+export default function ListCidade() {
 
     const [lista, setLista] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [idRemover, setIdRemover] = useState();
+
+    const [openModalDetalhes, setOpenModalDetalhes] = useState(false)
 
 
     useEffect(() => {
@@ -17,21 +19,11 @@ export default function ListCliente() {
 
     function carregarLista() {
 
-        axios.get("http://localhost:8080/api/cliente")
+        axios.get("http://localhost:8080/api/cidade")
             .then((response) => {
                 setLista(response.data)
             })
     }
-    function formatarData(dataParam) {
-
-        if (dataParam === null || dataParam === '' || dataParam === undefined) {
-            return ''
-        }
-
-        let arrayData = dataParam.split('-');
-        return arrayData[2] + '/' + arrayData[1] + '/' + arrayData[0];
-    }
-
     function confirmaRemover(id) {
         setOpenModal(true)
         setIdRemover(id)
@@ -39,36 +31,30 @@ export default function ListCliente() {
 
     async function remover() {
 
-        await axios.delete('http://localhost:8080/api/cliente/' + idRemover)
+        await axios.delete('http://localhost:8080/api/cidade/' + idRemover)
             .then((response) => {
 
-                notifySuccess("Cliente removido com sucesso.");
+                console.log('Cidade removida com sucesso.')
 
-                axios.get("http://localhost:8080/api/cliente")
+                axios.get("http://localhost:8080/api/cidade")
                     .then((response) => {
                         setLista(response.data)
                     })
             })
             .catch((error) => {
-          if (error.response.data.errors != undefined) {
-            for (let i = 0; i < error.response.data.errors.length; i++) {
-              notifyError(error.response.data.errors[i].defaultMessage);
-            }
-          } else {
-            notifyError(error.response.data.message);
-          }
-        });
+                console.log('Erro ao remover uma cidade.')
+            })
         setOpenModal(false)
     }
 
     return (
         <div>
-            <MenuSistema tela={'cliente'} />
+            <MenuSistema tela={'cidade'} />
             <div style={{ marginTop: '3%' }}>
 
                 <Container textAlign='justified' >
 
-                    <h2> Clientes </h2>
+                    <h2> Cidades </h2>
                     <Divider />
 
                     <div style={{ marginTop: '4%' }}>
@@ -79,7 +65,7 @@ export default function ListCliente() {
                             icon='clipboard outline'
                             floated='right'
                             as={Link}
-                            to='/form-cliente'
+                            to='/form-cidade'
                         />
                         <br /><br /><br />
 
@@ -87,50 +73,46 @@ export default function ListCliente() {
 
                             <Table.Header>
                                 <Table.Row>
-                                    <Table.HeaderCell>Nome</Table.HeaderCell>
-                                    <Table.HeaderCell>CPF</Table.HeaderCell>
-                                    <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Celular</Table.HeaderCell>
-                                    <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
-                                    <Table.HeaderCell textAlign='center'>Ações</Table.HeaderCell>
+                                    <Table.HeaderCell width={12}>Cidade</Table.HeaderCell>
+                                    <Table.HeaderCell width={1} textAlign="center">UF</Table.HeaderCell>
+
+                                    <Table.HeaderCell textAlign="center" width={3} >Ações</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
 
                             <Table.Body>
 
-                                {lista.map(cliente => (
+                                {lista.map(cidade => (
 
-                                    <Table.Row key={cliente.id}>
-                                        <Table.Cell>{cliente.nome}</Table.Cell>
-                                        <Table.Cell>{cliente.cpf}</Table.Cell>
-                                        <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
-                                        <Table.Cell>{cliente.foneCelular}</Table.Cell>
-                                        <Table.Cell>{cliente.foneFixo}</Table.Cell>
+                                    <Table.Row key={cidade.id}>
+                                        <Table.Cell>{cidade.nome}</Table.Cell>
+                                        <Table.Cell textAlign="center">{cidade.estado?.sigla}</Table.Cell>
                                         <Table.Cell textAlign='center'>
 
                                             <Button
                                                 inverted
                                                 circular
                                                 color='green'
-                                                title='Clique aqui para editar os dados deste cliente'
+                                                title='Clique aqui para editar os dados desta cidade'
                                                 icon>
-                                                <Link to="/form-cliente" state={{ id: cliente.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
+                                                <Link to="/form-cidade" state={{ id: cidade.id }} style={{ color: 'green' }}> <Icon name='edit' /> </Link>
                                             </Button> &nbsp;
                                             <Button
                                                 inverted
                                                 circular
-                                                color='green'
-                                                title='Clique aqui para visualizar os endereços deste cliente'
-                                                icon>
-                                                <Link to="/list-endereco-cliente" state={{ id: cliente.id }} style={{ color: 'black' }}> <Icon name='address book' /> </Link>
+                                                color='blue'
+                                                title='Clique aqui para detalhamento da cidade'
+                                                icon
+                                                onClick={e => setOpenModalDetalhes(true)}>
+                                                <Icon name='info' />
                                             </Button> &nbsp;
                                             <Button
                                                 inverted
                                                 circular
                                                 color='red'
-                                                title='Clique aqui para remover este cliente'
+                                                title='Clique aqui para remover esta cidade'
                                                 icon
-                                                onClick={e => confirmaRemover(cliente.id)}>
+                                                onClick={e => confirmaRemover(cidade.id)}>
                                                 <Icon name='trash' />
                                             </Button>
 
@@ -163,6 +145,27 @@ export default function ListCliente() {
                     </Button>
                 </Modal.Actions>
             </Modal>
+            <Modal
+                basic
+                onClose={() => setOpenModalDetalhes(false)}
+                onOpen={() => setOpenModalDetalhes(true)}
+                open={openModalDetalhes}
+            >
+                <div style={{ backgroundColor: "white", display: 'flex', flexDirection: 'row' }}>
+                    <div>
+                        <h1 style={{ color: 'black' }}>Detalhamento da cidade</h1>
+                        {lista.map(cidade => (
+                        <div style={{overflowY:'auto'}}>
+                          
+                           
+                           
+                        </div>
+                         ))}
+
+                    </div>
+                </div>
+            </Modal>
+
         </div>
 
 

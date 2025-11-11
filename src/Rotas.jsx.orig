@@ -15,14 +15,14 @@ import FormCidade from "./views/cidade/FormCidade";
 import ListCidade from "./views/cidade/ListCidade";
 
 
-
 import FormLogin from './views/login/FormLogin';
-import { ProtectedRoute } from './views/util/ProtectedRoute';
+
 
 function Rotas() {
     return (
         <>
             <Routes>
+<<<<<<< HEAD
                 <Route path="/" element={<FormLogin />} />
                 <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
 
@@ -40,12 +40,23 @@ function Rotas() {
 
                 <Route path="form-entregador" element={<ProtectedRoute><FormEntregador /></ProtectedRoute>} />
                 <Route path="list-entregador" element={<ProtectedRoute><ListEntregador /></ProtectedRoute>} />
+=======
+                <Route path="/" element={ <Home/> } />
+                <Route path="list-cliente" element={ <ListCliente/> } />
+                <Route path="form-cliente" element={ <FormCliente/> } />
+                <Route path="form-endereco-cliente" element={ <FormEnderecoCliente/> } />
+                <Route path="list-endereco-cliente" element={ <ListEnderecoCliente/> } />
+                <Route path="form-produto" element={ <FormProduto/> } />
+                <Route path="list-produto" element={ <ListProduto/> } />
+                <Route path="form-categoria" element={ <FormCategoriaProduto/> } />
+                <Route path="list-categoria" element={ <ListCatgoriaProduto/> } />
+                <Route path="form-entregador" element={ <FormEntregador/> } />
+                <Route path="list-entregador" element={ <ListEntregador/> } />
 
+                <Route path="form-cidade" element={ <FormCidade/> } />
+                <Route path="list-cidade" element={ <ListCidade/> } />
 
-                 <Route path="form-cidade" element={ <ProtectedRoute><FormCidade/></ProtectedRoute> } />
-                <Route path="list-cidade" element={<ProtectedRoute> <ListCidade/></ProtectedRoute> } />
-
-           
+>>>>>>> 960bcc6e07d70393ffacd59e137d676c64b7242b
             </Routes>
         </>
     )

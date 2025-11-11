@@ -12,7 +12,7 @@ export default function MenuSistema(props) {
                     content='Home'
                     active={props.tela === 'home'}
                     as={Link}
-                    to='/'
+                    to='/home'
                 />
                 <Menu.Item
                     content='Cliente'
@@ -37,6 +37,12 @@ export default function MenuSistema(props) {
                     active={props.tela === 'entregador'}
                     as={Link}
                     to='/list-entregador'
+                />
+                <Menu.Item
+                    content='Cidade'
+                    active={props.tela === 'cidade'}
+                    as={Link}
+                    to='/list-cidade'
                 />
 
                 <Menu.Item

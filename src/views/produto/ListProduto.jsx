@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
+import { Button, Container, Divider, Header, Icon, Modal, Table, Menu, Form, Segment } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListProduto() {
 
-    const [lista, setLista] = useState([]);
+    const [listaProduto, setListaProduto] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [idRemover, setIdRemover] = useState();
     const [menuFiltro, setMenuFiltro] = useState();
@@ -14,6 +14,7 @@ export default function ListProduto() {
     const [titulo, setTitulo] = useState();
     const [idCategoria, setIdCategoria] = useState();
     const [listaCategoriaProduto, setListaCategoriaProduto] = useState([]);
+   
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ export default function ListProduto() {
 
         axios.get("http://localhost:8080/api/produto")
             .then((response) => {
-                setLista(response.data)
+                setListaProduto(response.data)
             })
 
         axios.get("http://localhost:8080/api/categoriaproduto")
@@ -55,7 +56,7 @@ export default function ListProduto() {
 
                 axios.get("http://localhost:8080/api/produto")
                     .then((response) => {
-                        setLista(response.data)
+                        setListaProduto(response.data)
                     })
             })
             .catch((error) => {
@@ -106,7 +107,7 @@ export default function ListProduto() {
 
         await axios.post("http://localhost:8080/api/produto/filtrar", formData)
             .then((response) => {
-                setListaProdutos(response.data)
+                setListaProduto(response.data)
             })
     }
 
@@ -199,7 +200,7 @@ export default function ListProduto() {
 
                             <Table.Body>
 
-                                {lista.map(produto => (
+                                {listaProduto.map(produto => (
 
                                     <Table.Row key={produto.id}>
                                         <Table.Cell>{produto.codigo}</Table.Cell>
