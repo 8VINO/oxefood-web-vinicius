@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import { Button, Container, Divider, Form, Icon, Image } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
@@ -18,6 +18,8 @@ export default function FormProduto() {
     const { state } = useLocation()
     const [idProduto, setIdProduto] = useState();
 
+    const [imagem, setImagem] = useState(null);
+  	const [preview, setPreview] = useState(null);
     
     useEffect(() => {
         if (state != null && state.id != null) {
@@ -31,6 +33,7 @@ export default function FormProduto() {
                     setTempMin(response.data.tempoEntregaMinimo)
                     setTempMax(response.data.tempoEntregaMaximo)
                     setIdCategoria(response.data.categoria?.id)
+                    setImagem(response.data.imagem);
                 })
         }
         axios.get("http://localhost:8080/api/categoriaproduto")
@@ -53,7 +56,9 @@ export default function FormProduto() {
         }
         if (idProduto != null) {
             axios.put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
-                .then((response) => { notifySuccess("Produto atualizado com sucesso."); })
+                .then((response) => { 
+                    atualizaImagem(idProduto);
+                    notifySuccess("Produto atualizado com sucesso."); })
                 .catch((error) => { 
                     if (error.response.data.errors != undefined) {
                                 for (let i = 0; i < error.response.data.errors.length; i++) {
@@ -65,7 +70,9 @@ export default function FormProduto() {
                  })
         } else {
             axios.post("http://localhost:8080/api/produto", produtoRequest)
-                .then((response) => { notifySuccess("Produto cadastrado com sucesso."); })
+                .then((response) => { 
+                    atualizaImagem(response.data.id);
+                    notifySuccess("Produto cadastrado com sucesso."); })
                 .catch((error) => {
                       if (error.response.data.errors != undefined) {
                                 for (let i = 0; i < error.response.data.errors.length; i++) {
@@ -80,6 +87,41 @@ export default function FormProduto() {
 
 
     }
+    const handleImagemChange = (event) => {
+
+       const file = event.target.files[0];
+       setImagem(file);
+
+       // Gera uma URL para visualização da imagem
+       if (file) {
+           const reader = new FileReader();
+           reader.onloadend = () => {
+               setPreview(reader.result);
+           };
+           reader.readAsDataURL(file);
+       } else {
+           setPreview(null);
+       }
+};
+function atualizaImagem(idProduto) {
+
+		let formData = new FormData();
+		formData.append('imagem', imagem);
+
+		axios.post("http://localhost:8080/api/produto/" + idProduto, formData)
+		.then((response) => {
+			notifySuccess('Imagem cadastrada com sucesso.')
+		})
+		.catch((error) => {
+			if (error.response) {
+				notifyError(error.response.data.errors[0].defaultMessage)
+			} else {
+				notifyError(error.response.data.message)
+			}
+		})
+	}
+
+
     return (
         <div>
             <MenuSistema tela={"produto"} />
@@ -97,6 +139,22 @@ export default function FormProduto() {
                     <div style={{ marginTop: '4%' }}>
 
                         <Form >
+                        <Form.Input
+                               label="Imagem do Produto"
+                               type="file"
+                               accept="image/*"
+                               onChange={handleImagemChange}
+                           />
+
+                           {preview && (
+                               <Image src={preview} size="small" bordered style={{ marginTop: '1em' }} />
+                           )}
+                           {!preview && imagem && (
+                               <Image src={`imagens_cadastradas/${imagem}`} bordered style={{ marginTop: '1em' }} />
+                           )}
+
+                           <br/>
+
                             <Form.Group widths='equal'>
                                 <Form.Input
                                     fluid
